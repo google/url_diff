@@ -222,22 +222,29 @@ def main():
   # TODO(macpd): usage string
   # TODO(macpd): provide option to url decode params before comparison
   # TODO(macpd): provide option to diff case insensitively
+  # TODO(macpd): provide verbosity option
   arg_parser = argparse.ArgumentParser(
       description='show the difference between 2 urls. Inspired by the unix utility diff',
-      epilog='Currenty this tool discards everything after # if present.')
+      epilog='Currenty this tool discards everything after # if present. see https://github.com/google/url_diff for more information.')
   arg_parser.add_argument('--hostname', default=False, required=False,
       help='also diff URL hostname', action='store_true', dest='diff_hostname')
   arg_parser.add_argument('--names', '-n', default=False, required=False,
       help='only diff URL parameter names.', action='store_true', dest='names_only')
-  arg_parser.add_argument('left_url', type=str, help='URL to diff against.  logically handled as the left argurmnt of diff.', metavar='<left URL>')
-  arg_parser.add_argument('right_url', type=str, help='URL to diff against.  logically handled as the left argurmnt of diff.', metavar='<right URL>')
+  arg_parser.add_argument('left_url', type=str, help='URL to diff against.  Logically handled as the left argurmnt of diff.', metavar='<left URL>')
+  arg_parser.add_argument('right_url', type=str, help='URL to diff against.  Logically handled as the right argurmnt of diff.', metavar='<right URL>')
+  arg_parser.add_argument('--quiet', '-q', action='store_true', help='suppress output and return non-zero if URLs differ.',
+                          default=False, required=False)
+
 
   args = arg_parser.parse_args()
 
-  differ = UrlDiffer(args.left_url, args.right_url, names_only=args.names_only,
-      hostnames=args.diff_hostname)
+  differ = UrlDiffer(args.left_url,
+                     args.right_url,
+                     names_only=args.names_only,
+                     hostnames=args.diff_hostname)
 
-  print differ
+  if not args.quiet:
+    print differ
 
   sys.exit(1 if differ.are_different() else 0)
 
