@@ -3,8 +3,6 @@ url_diff
 
 A tool (like diff) to show the differences between 2 URLs.
 
-This is currently a weekend project. Hope y'all find it useful too.
-
 In my job I work with a lot of URLs, and often need to know which parameters (names and/or values) differ between 2.  I got fed up with "eye-balling" URLs to figure out the difference (esp. with different param orderings) so I'm developing a tool to do it for me.
 
 enter url_diff
@@ -50,4 +48,4 @@ I think the help message explains the rest:
     Currenty this tool discards everything after # if present.
     See https://github.com/google/url_diff for more information.
 
-Also, please keep in mind this is still in alpha.
+Also, please keep in mind this is still in alpha, and it's currently a weekend project. Hope y'all find it useful too.
