@@ -32,7 +32,7 @@ for example, what's different between these 2 URLs:
 I think the help message explains the rest:
 
     python url_diff.py --help
-    usage: url_diff.py [-h] [--hostname] [--names] <left URL> <right URL>
+    usage: url_diff.py [-h] [--hostname] [--names] [--quiet] <left URL> <right URL>
 
     show the difference between 2 urls. Inspired by the unix utility diff
 
@@ -44,6 +44,7 @@ I think the help message explains the rest:
       -h, --help   show this help message and exit
       --hostname   also diff URL hostname
       --names, -n  only diff URL parameter names.
+      --quiet, -q  suppress output and return non-zero if URLs differ.
 
     Currenty this tool discards everything after # if present.
     See https://github.com/google/url_diff for more information.
