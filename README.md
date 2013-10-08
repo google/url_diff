@@ -31,21 +31,22 @@ for example, what's different between these 2 URLs:
 	> science
 
 
-I think the help message explains the rest:  
-	python url_diff.py --help
-	usage: url_diff.py [-h] [--hostname] [--names] <left URL> <right URL>
+I think the help message explains the rest:
 
-	show the difference between 2 urls. Inspired by the unix utility diff
+    python url_diff.py --help
+    usage: url_diff.py [-h] [--hostname] [--names] <left URL> <right URL>
 
-	positional arguments:
-	  <left URL>   URL to diff against. logically handled as the left argurment of diff.
-	  <right URL>  URL to diff against. logically handled as the left argurment of diff.
+    show the difference between 2 urls. Inspired by the unix utility diff
 
-	optional arguments:
-	  -h, --help   show this help message and exit
-	  --hostname   also diff URL hostname
-	  --names, -n  only diff URL parameter names.
+    positional arguments:
+      <left URL>   URL to diff against. Logically handled as the left argurmnt of diff.
+      <right URL>  URL to diff against. Logically handled as the right argurmnt of diff.
 
-	Currenty this tool discards everything after # if present.
+    optional arguments:
+      -h, --help   show this help message and exit
+      --hostname   also diff URL hostname
+      --names, -n  only diff URL parameter names.
+
+    Currenty this tool discards everything after # if present. see https://github.com/google/url_diff for more information.
 
 Also, please keep in mind this is still in alpha.
