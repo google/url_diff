@@ -14,21 +14,21 @@ for example, what's different between these 2 URLs:
 `http://example.com/?foo=bar&cake=lie&you=monster&beer=good&speech=free&breaking=bad`
 `http://example.com/?&speech=free&beer=good&aperture=science&foo=bar&you=here&breaking=over`
 
-    url_diff.py 'http://example.com/?foo=bar&cake=lie&you=monster&beer=good&speech=free&breaking=bad' \  
-        'http://example.com/?&speech=free&beer=good&aperture=science&foo=bar&you=here&breaking=over'  
-	breaking
-	< bad
-	over
+    url_diff.py 'http://example.com/?foo=bar&cake=lie&you=monster&beer=good&speech=free&breaking=bad' \
+      'http://example.com/?&speech=free&beer=good&aperture=science&foo=bar&you=here&breaking=over'
+    breaking
+    < bad
+    over
 
-	cake
-	< lie
+    cake
+    < lie
 
-	you
-	< monster
-	> here
+    you
+    < monster
+    > here
 
-	aperture
-	> science
+    aperture
+    > science
 
 
 I think the help message explains the rest:
@@ -47,6 +47,7 @@ I think the help message explains the rest:
       --hostname   also diff URL hostname
       --names, -n  only diff URL parameter names.
 
-    Currenty this tool discards everything after # if present. see https://github.com/google/url_diff for more information.
+    Currenty this tool discards everything after # if present.
+    See https://github.com/google/url_diff for more information.
 
 Also, please keep in mind this is still in alpha.
