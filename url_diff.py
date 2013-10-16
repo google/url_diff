@@ -86,6 +86,7 @@ class UrlDiffer(object):
   PARAM_DELIM = '&'
   NAME_VAL_DELIM = '='
   SCHEME_DELIM = '://'
+  UNIX_SLASH = '/'
 
   def __init__(self, left_url, right_url, names_only=False, hostnames=False):
     """Initializes object and performs URL diffing."""
@@ -116,19 +117,19 @@ class UrlDiffer(object):
 
   def _get_hostname(self, url):
     """Parses the hostname from a URL."""
-    try:
-      scheme_idx = url.find(self.SCHEME_DELIM)
-      if scheme_idx == -1:
-        hostname_begin = 0
-        if not url[hostname_begin].isalnum():
-          raise ValueError
-      else:
-        hostname_begin = scheme_idx + len(self.SCHEME_DELIM)
-      hostname_end = url.index('/', hostname_begin)
-      return url[hostname_begin:hostname_end]
-    except ValueError:
-      logging.error('Unable to parse hostname from %s', url)
-      raise HostnameParseError
+    # find hostname between scheme and first unix slash
+    if self.SCHEME_DELIM in url:
+      scheme_idx = url.index(self.SCHEME_DELIM)
+      hostname_begin = scheme_idx + len(self.SCHEME_DELIM)
+    else:
+      hostname_begin = 0
+
+    if self.UNIX_SLASH in url[hostname_begin:]:
+      hostname_end = url.index(self.UNIX_SLASH, hostname_begin)
+    else:
+      hostname_end = len(url[hostname_begin:])
+
+    return url[hostname_begin:hostname_end]
 
   def _diff_hostnames(self, left, right):
     """Diffs hostnames, if different appends ParamDiffEntry to diffs list.
