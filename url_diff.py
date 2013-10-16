@@ -150,7 +150,12 @@ class UrlDiffer(object):
     return self._hostnames_differ
 
   def _get_params(self, url):
-    """Returns a dict of the url params."""
+    """Returns a dict of the url params.
+
+      Args:
+        url: String; URL to get parameter names and values from.
+      Returns:
+        Dict of parameter names that map to their values."""
     param_dict = {}
     if self.PATH_DELIM not in url:
       return param_dict
@@ -170,7 +175,7 @@ class UrlDiffer(object):
       right_param: dict; param name -> value dict of the right URL.
 
     Returns:
-      dict of ParamDiffEntry of differences between the left and right params.
+      List of ParamDiffEntry of differences between the left and right params.
     """
     diffs = []
     for left_key in left_params.iterkeys():
