@@ -16,7 +16,7 @@ for example, what's different between these 2 URLs:
       'http://example.com/?&speech=free&beer=good&aperture=science&foo=bar&you=here&breaking=over'
     breaking
     < bad
-    over
+    > over
 
     cake
     < lie
