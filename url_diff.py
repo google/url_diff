@@ -206,8 +206,9 @@ class UrlDiffer(object):
       self._diff_hostnames(self._left_hostname, self._right_hostname)
     self._left_params_dict = self._get_params(self._left_url)
     self._right_params_dict = self._get_params(self._right_url)
-    self._diffs.extend(self._diff_params(
-      self._left_params_dict, self._right_params_dict))
+    if not self._left_params_dict == self._right_params_dict:
+      self._diffs.extend(self._diff_params(
+          self._left_params_dict, self._right_params_dict))
 
   def left_params(self):
     """Returns a deep coy of the left params dict."""
