@@ -156,9 +156,10 @@ class UrlDiffer(object):
     params_pos = url.find(self.PATH_DELIM) + 1
     for token in url[params_pos:].split(self.PARAM_DELIM):
       if '=' not in token:
-        continue
-      partitioned_param = token.partition(self.NAME_VAL_DELIM)
-      param_dict[partitioned_param[0]] = partitioned_param[2]
+        param_dict[token] = ''
+      else:
+        partitioned_param = token.partition(self.NAME_VAL_DELIM)
+        param_dict[partitioned_param[0]] = partitioned_param[2]
     return param_dict
 
   def _diff_params(self, left_params, right_params):
