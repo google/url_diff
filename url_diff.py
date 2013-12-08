@@ -240,7 +240,7 @@ def main():
   arg_parser.add_argument('--names', '-n', default=False, required=False,
       help='only diff URL parameter names.', action='store_true', dest='names_only')
   arg_parser.add_argument('left_url', type=str, help='URL to diff against.  Logically handled as the left argurmnt of diff.', metavar='<left URL>')
-  arg_parser.add_argument('right_url', type=str, help='URL to diff against.  Logically handled as the right argurmnt of diff.', metavar='<right URL>')
+  arg_parser.add_argument('right_url', type=str, help='URL to diff against.  Logically handled as the right argurmnt of diff.', metavar='<right URL>', nargs='?', default='')
   arg_parser.add_argument('--quiet', '-q', action='store_true', help='suppress output and return non-zero if URLs differ.',
                           default=False, required=False)
 
