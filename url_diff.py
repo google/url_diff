@@ -87,7 +87,8 @@ class UrlDiffer(object):
   NAME_VAL_DELIM = '='
   SCHEME_DELIM = '://'
   UNIX_SLASH = '/'
-  ESCAPE_SEQ_LEN = 3
+  URL_ESCAPE_CHAR = '%'
+  URL_ESCAPE_SEQ_LEN = 3
 
   def __init__(self, left_url, right_url, names_only=False, hostnames=False,
       url_decode_params=False):
@@ -225,16 +226,16 @@ class UrlDiffer(object):
     Returns:
       String; deocded string.
     """
-    if '%' not in token:
+    if self.URL_ESCAPE_CHAR not in token:
       return token
     new_token = []
     cur = prev = 0
-    cur = token.find('%', prev)
+    cur = token.find(self.URL_ESCAPE_CHAR, prev)
     while(cur != -1):
       new_token.append(token[prev:cur])
-      new_token.append(token[cur+1:cur+self.ESCAPE_SEQ_LEN].decode('hex'))
-      prev = cur + self.ESCAPE_SEQ_LEN
-      cur = token.find('%', prev)
+      new_token.append(token[cur+1:cur+self.URL_ESCAPE_SEQ_LEN].decode('hex'))
+      prev = cur + self.URL_ESCAPE_SEQ_LEN
+      cur = token.find(self.URL_ESCAPE_CHAR, prev)
 
     new_token.append(token[prev:])
     return ''.join(new_token)
