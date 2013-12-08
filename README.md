@@ -33,7 +33,7 @@ think is easier to read):
 
     python url_diff.py 'http://localhost/?param=val&readable=i%20think%20so'
     readable
-    < iREADME.md20thinkREADME.md20so
+    < i%20think%20so
 
     param
     < val
