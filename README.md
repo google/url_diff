@@ -28,11 +28,21 @@ for example, what's different between these 2 URLs:
     aperture
     > science
 
+Also, you can use url_diff to enumerate the parameters of a single URL (which I
+think is easier to read):
 
-I think the help message explains the rest:
+    python url_diff.py 'http://localhost/?param=val&readable=i%20think%20so'
+    readable
+    < iREADME.md20thinkREADME.md20so
+
+    param
+    < val
+
+The help message should explain the rest:
 
     python url_diff.py --help
-    usage: url_diff.py [-h] [--hostname] [--names] [--quiet] <left URL> <right URL>
+
+    usage: url_diff.py [-h] [--hostname] [--names] [--quiet] <left URL> [<right URL>]
 
     show the difference between 2 urls. Inspired by the unix utility diff
 
@@ -46,7 +56,7 @@ I think the help message explains the rest:
       --names, -n  only diff URL parameter names.
       --quiet, -q  suppress output and return non-zero if URLs differ.
 
-    Currenty this tool discards everything after # if present.
-    See https://github.com/google/url_diff for more information.
+    Currenty this tool discards everything after # if present. see
+    https://github.com/google/url_diff for more information.
 
-Also, please keep in mind this is still in alpha, and it's currently a weekend project. Hope y'all find it useful too.
+Please keep in mind this is still in alpha, and it's currently a weekend project. Hope y'all find it useful too.
