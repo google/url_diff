@@ -88,7 +88,7 @@ class UrlDiffer(object):
   SCHEME_DELIM = '://'
   UNIX_SLASH = '/'
   URL_ESCAPE_CHAR = '%'
-  URL_ESCAPE_SEQ_LEN = 3
+  URL_ESCAPE_SEQ_LEN = 3 # expected length of URL espace sequences, aka len('%25')
 
   def __init__(self, left_url, right_url, names_only=False, hostnames=False,
       url_decode_params=False):
