@@ -228,7 +228,7 @@ class UrlDiffer(object):
 
 
 def main():
-  # TODO(macpd): main function documentation
+  """Parses args, inits and prints differ, and exits with appropriate value."""
   # TODO(macpd): usage string
   # TODO(macpd): provide option to url decode params before comparison
   # TODO(macpd): provide option to diff case insensitively
