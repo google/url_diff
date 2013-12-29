@@ -40,8 +40,9 @@ think is easier to read):
 
 The help message should explain the rest:
 
-    usage: url_diff.py [-h] [--hostname] [--names] [--decode] [--quiet]
-                       <left URL> [<right URL>]
+    python url_diff.py --help
+
+    usage: url_diff.py [-h] [--hostname] [--names] [--decode] [--quiet] <left URL> [<right URL>]
 
     show the difference between 2 urls. Inspired by the unix utility diff
 
