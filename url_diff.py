@@ -87,13 +87,17 @@ class UrlDiffer(object):
   NAME_VAL_DELIM = '='
   SCHEME_DELIM = '://'
   UNIX_SLASH = '/'
+  URL_ESCAPE_CHAR = '%'
+  URL_ESCAPE_SEQ_LEN = 3 # expected length of URL espace sequences, aka len('%25')
 
-  def __init__(self, left_url, right_url, names_only=False, hostnames=False):
+  def __init__(self, left_url, right_url, names_only=False, hostnames=False,
+      url_decode_params=False):
     """Initializes object and performs URL diffing."""
     self._left_url = self._normalize_url(left_url)
     self._right_url = self._normalize_url(right_url)
     self._names_only = names_only
     self._wants_hostname_diff = hostnames
+    self._url_decode_params = url_decode_params
     self._diffs = []
     self._do_diff()
 
@@ -163,7 +167,9 @@ class UrlDiffer(object):
     for token in url[params_pos:].split(self.PARAM_DELIM):
       if not token:
         continue
-      elif '=' not in token:
+      if self._url_decode_params:
+        token = self._url_decode(token)
+      if '=' not in token:
         param_dict[token] = ''
       else:
         partitioned_param = token.partition(self.NAME_VAL_DELIM)
@@ -210,6 +216,30 @@ class UrlDiffer(object):
       self._diffs.extend(self._diff_params(
           self._left_params_dict, self._right_params_dict))
 
+  def _url_decode(self, token):
+    """URL decodes provided string.
+
+    Replaces all instances of %NN with the ascii value of hex(NN).
+
+    Args:
+      token: String to be decoded.
+    Returns:
+      String; deocded string.
+    """
+    if self.URL_ESCAPE_CHAR not in token:
+      return token
+    new_token = []
+    cur = prev = 0
+    cur = token.find(self.URL_ESCAPE_CHAR, prev)
+    while(cur != -1):
+      new_token.append(token[prev:cur])
+      new_token.append(token[cur+1:cur+self.URL_ESCAPE_SEQ_LEN].decode('hex'))
+      prev = cur + self.URL_ESCAPE_SEQ_LEN
+      cur = token.find(self.URL_ESCAPE_CHAR, prev)
+
+    new_token.append(token[prev:])
+    return ''.join(new_token)
+
   def left_params(self):
     """Returns a deep coy of the left params dict."""
     return copy.deepcopy(self._left_params_dict)
@@ -230,7 +260,6 @@ class UrlDiffer(object):
 def main():
   """Parses args, inits and prints differ, and exits with appropriate value."""
   # TODO(macpd): usage string
-  # TODO(macpd): provide option to url decode params before comparison
   # TODO(macpd): provide option to diff case insensitively
   # TODO(macpd): provide verbosity option
   # TODO(macpd): handle duplicate keys with different values in same URL
@@ -241,18 +270,21 @@ def main():
       help='also diff URL hostname', action='store_true', dest='diff_hostname')
   arg_parser.add_argument('--names', '-n', default=False, required=False,
       help='only diff URL parameter names.', action='store_true', dest='names_only')
+  arg_parser.add_argument('--decode', '-d', default=False, required=False,
+      help='URL decode parameter names and values (if applicable). Decoded params will be used for comparison and printing.',
+      action='store_true', dest='decode_params')
   arg_parser.add_argument('left_url', type=str, help='URL to diff against.  Logically handled as the left argurmnt of diff.', metavar='<left URL>')
   arg_parser.add_argument('right_url', type=str, help='URL to diff against.  Logically handled as the right argurmnt of diff.', metavar='<right URL>', nargs='?', default='')
   arg_parser.add_argument('--quiet', '-q', action='store_true', help='suppress output and return non-zero if URLs differ.',
                           default=False, required=False)
-
 
   args = arg_parser.parse_args()
 
   differ = UrlDiffer(args.left_url,
                      args.right_url,
                      names_only=args.names_only,
-                     hostnames=args.diff_hostname)
+                     hostnames=args.diff_hostname,
+                     url_decode_params=args.decode_params)
 
   if not args.quiet:
     print differ

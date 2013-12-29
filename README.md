@@ -42,19 +42,21 @@ The help message should explain the rest:
 
     python url_diff.py --help
 
-    usage: url_diff.py [-h] [--hostname] [--names] [--quiet] <left URL> [<right URL>]
+    usage: url_diff.py [-h] [--hostname] [--names] [--decode] [--quiet] <left URL> [<right URL>]
 
     show the difference between 2 urls. Inspired by the unix utility diff
 
     positional arguments:
-      <left URL>   URL to diff against. Logically handled as the left argurmnt of diff.
-      <right URL>  URL to diff against. Logically handled as the right argurmnt of diff.
+      <left URL>    URL to diff against. Logically handled as the left argurmnt of diff.
+      <right URL>   URL to diff against. Logically handled as the right argurmnt of diff.
 
     optional arguments:
-      -h, --help   show this help message and exit
-      --hostname   also diff URL hostname
-      --names, -n  only diff URL parameter names.
-      --quiet, -q  suppress output and return non-zero if URLs differ.
+      -h, --help    show this help message and exit
+      --hostname    also diff URL hostname
+      --names, -n   only diff URL parameter names.
+      --decode, -d  URL decode parameter names and values (if applicable). Decoded
+                    params will be used for comparison and printing.
+      --quiet, -q   suppress output and return non-zero if URLs differ.
 
     Currenty this tool discards everything after # if present. see
     https://github.com/google/url_diff for more information.
