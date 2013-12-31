@@ -164,44 +164,69 @@ class UrlDiffer(object):
     param_dict = {}
     if self.PATH_DELIM not in url:
       return param_dict
+
     params_pos = url.find(self.PATH_DELIM) + 1
     for token in url[params_pos:].split(self.PARAM_DELIM):
       if not token:
         continue
-      if self._url_decode_params:
-        token = self._url_decode(token)
       if '=' not in token:
-        param_dict[token] = ''
+        token_key = token
+        token_value = ''
       else:
         partitioned_param = token.partition(self.NAME_VAL_DELIM)
-        param_dict[partitioned_param[0]] = partitioned_param[2]
+        token_key = partitioned_param[0]
+        token_value = partitioned_param[2]
+
+      if self._url_decode_params:
+        token_key = self._url_decode(token_key)
+        token_value = self._url_decode(token_value)
+
+      value_list = param_dict.get(token_key, [])
+      value_list.append(token_value)
+      param_dict[token_key] = value_list
+
     return param_dict
 
   def _diff_params(self, left_params, right_params):
     """Returns a list of the diffence between dicts on key/values.
 
+    First all keys that exist in both URLs are compared, then keys only in the
+    left, followed by keys only in the right.
+
     Args:
-      left_param: dict; param name -> value dict of the left URL.
-      right_param: dict; param name -> value dict of the right URL.
+      left_param: dict; param name -> values dict of the left URL.
+      right_param: dict; param name -> values dict of the right URL.
 
     Returns:
       List of ParamDiffEntry of differences between the left and right params.
     """
     diffs = []
-    for left_key in left_params.iterkeys():
-      if left_key in right_params:
-        if left_params[left_key] != right_params[left_key]:
-          diffs.append(ParamDiffEntry(
-            left_key, left_params[left_key], right_params[left_key],
-            ParamDiffEntry.BOTH_DIFFER))
-      else:
-        diffs.append(ParamDiffEntry(
-          left_key, left_params[left_key], None, ParamDiffEntry.LEFT_ONLY))
+    left_key_set = frozenset(left_params.keys())
+    right_key_set = frozenset(right_params.keys())
+    left_key_diff = left_key_set.difference(right_key_set)
+    right_key_diff = right_key_set.difference(left_key_set)
+    key_intersection = left_key_set.intersection(right_key_set)
 
-    for right_key in right_params.iterkeys():
-      if right_key not in left_params:
-        diffs.append(ParamDiffEntry(
-          right_key, None, right_params[right_key], ParamDiffEntry.RIGHT_ONLY))
+    for common_key in key_intersection:
+      left_val_set = set(left_params[common_key])
+      right_val_set = set(right_params[common_key])
+      left_diff = left_val_set.difference(right_val_set)
+      right_diff = right_val_set.difference(left_val_set)
+      if left_diff or right_diff:
+        diffs.append(
+            ParamDiffEntry(
+              common_key,
+              left_val_set.difference(right_val_set),
+              right_val_set.difference(left_val_set),
+              ParamDiffEntry.BOTH_DIFFER))
+
+    for left_key in left_key_diff:
+      diffs.append(ParamDiffEntry(
+        left_key, left_params[left_key], None, ParamDiffEntry.LEFT_ONLY))
+
+    for right_key in right_key_diff:
+      diffs.append(ParamDiffEntry(
+        right_key, None, right_params[right_key], ParamDiffEntry.RIGHT_ONLY))
 
     return diffs
 
