@@ -159,7 +159,8 @@ class UrlDiffer(object):
       Args:
         url: String; URL to get parameter names and values from.
       Returns:
-        Dict of parameter names that map to their values."""
+        Dict of parameter names that map to their values.
+    """
     param_dict = {}
     if self.PATH_DELIM not in url:
       return param_dict
@@ -259,7 +260,6 @@ class UrlDiffer(object):
 
 def main():
   """Parses args, inits and prints differ, and exits with appropriate value."""
-  # TODO(macpd): usage string
   # TODO(macpd): provide option to diff case insensitively
   # TODO(macpd): provide verbosity option
   # TODO(macpd): handle duplicate keys with different values in same URL
