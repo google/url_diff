@@ -44,13 +44,15 @@ class ParamDiffEntry(object):
   LEFT_ONLY = 1
   RIGHT_ONLY = 2
   BOTH_DIFFER = 3
-  LEFT_VALUE_FORMAT = '{0}\n< {1}'
-  RIGHT_VALUE_FORMAT = '{0}\n> {1}'
+  LEFT_HEADER_FORMAT = '{0}\n< {1}'
+  LEFT_ADDITIONAL_SEPARATOR = '\n< '
+  RIGHT_HEADER_FORMAT = '{0}\n> {1}'
+  RIGHT_ADDITIONAL_SEPARATOR = '\n> '
 
   def __init__(self, name, left_value, right_value, diff_type):
     self._name = name
-    self._left_val = left_value
-    self._right_val = right_value
+    self._left_val = list(left_value) if left_value else []
+    self._right_val = list(right_value) if right_value else []
     try:
       if self._valid_diff_type(diff_type):
         self._type = diff_type
@@ -71,9 +73,9 @@ class ParamDiffEntry(object):
   def __str__(self):
     ret = self._name
     if self._type == self.LEFT_ONLY or self._type == self.BOTH_DIFFER:
-      ret = self.LEFT_VALUE_FORMAT.format(ret, self._left_val)
+      ret = self.LEFT_HEADER_FORMAT.format(ret, self.LEFT_ADDITIONAL_SEPARATOR.join(self._left_val))
     if self._type == self.RIGHT_ONLY or self._type == self.BOTH_DIFFER:
-      ret = self.RIGHT_VALUE_FORMAT.format(ret, self._right_val)
+      ret = self.RIGHT_HEADER_FORMAT.format(ret, self.RIGHT_ADDITIONAL_SEPARATOR.join(self._right_val))
     return ret
 
 
