@@ -289,7 +289,6 @@ def main():
   """Parses args, inits and prints differ, and exits with appropriate value."""
   # TODO(macpd): provide option to diff case insensitively
   # TODO(macpd): provide verbosity option
-  # TODO(macpd): handle duplicate keys with different values in same URL
   arg_parser = argparse.ArgumentParser(
       description='show the difference between 2 urls. Inspired by the unix utility diff',
       epilog='Currenty this tool discards everything after # if present. see https://github.com/google/url_diff for more information.')
