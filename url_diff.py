@@ -72,8 +72,10 @@ class ParamDiffEntry(object):
 
   def __str__(self):
     ret = self._name
+    # if self._left_val and (self._type == self.LEFT_ONLY or self._type == self.BOTH_DIFFER):
     if self._type == self.LEFT_ONLY or self._type == self.BOTH_DIFFER:
       ret = self.LEFT_HEADER_FORMAT.format(ret, self.LEFT_ADDITIONAL_SEPARATOR.join(self._left_val))
+    # if self._right_val and (self._type == self.RIGHT_ONLY or self._type == self.BOTH_DIFFER):
     if self._type == self.RIGHT_ONLY or self._type == self.BOTH_DIFFER:
       ret = self.RIGHT_HEADER_FORMAT.format(ret, self.RIGHT_ADDITIONAL_SEPARATOR.join(self._right_val))
     return ret
