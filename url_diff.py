@@ -72,8 +72,10 @@ class ParamDiffEntry(object):
 
   def __str__(self):
     ret = self._name
+    # if self._left_val and (self._type == self.LEFT_ONLY or self._type == self.BOTH_DIFFER):
     if self._type == self.LEFT_ONLY or self._type == self.BOTH_DIFFER:
       ret = self.LEFT_HEADER_FORMAT.format(ret, self.LEFT_ADDITIONAL_SEPARATOR.join(self._left_val))
+    # if self._right_val and (self._type == self.RIGHT_ONLY or self._type == self.BOTH_DIFFER):
     if self._type == self.RIGHT_ONLY or self._type == self.BOTH_DIFFER:
       ret = self.RIGHT_HEADER_FORMAT.format(ret, self.RIGHT_ADDITIONAL_SEPARATOR.join(self._right_val))
     return ret
@@ -214,13 +216,21 @@ class UrlDiffer(object):
       right_val_set = set(right_params[common_key])
       left_diff = left_val_set.difference(right_val_set)
       right_diff = right_val_set.difference(left_val_set)
-      if left_diff or right_diff:
-        diffs.append(
-            ParamDiffEntry(
-              common_key,
-              left_val_set.difference(right_val_set),
-              right_val_set.difference(left_val_set),
-              ParamDiffEntry.BOTH_DIFFER))
+      if left_diff and right_diff:
+        diff_type = ParamDiffEntry.BOTH_DIFFER
+      elif left_diff:
+        diff_type = ParamDiffEntry.LEFT_ONLY
+      elif right_diff:
+        diff_type = ParamDiffEntry.RIGHT_ONLY
+      else:
+        # if no diff skip to next iteration
+        continue
+      diffs.append(
+          ParamDiffEntry(
+            common_key,
+            left_val_set.difference(right_val_set),
+            right_val_set.difference(left_val_set),
+            diff_type))
 
     for left_key in left_key_diff:
       diffs.append(ParamDiffEntry(
