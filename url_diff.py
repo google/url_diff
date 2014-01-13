@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 """
-Copyright 2013 Google Inc. All Rights Reserved.
+Copyright 2014 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -122,8 +122,10 @@ class UrlDiffer(object):
     return ret
 
   def _get_hostname(self, url):
-    """Parses the hostname from a URL."""
-    # find hostname between scheme and first unix slash
+    """Parses the hostname from a URL"
+
+    Finds hostname between scheme and first unix slash.
+    """
     if self.SCHEME_DELIM in url:
       scheme_idx = url.index(self.SCHEME_DELIM)
       hostname_begin = scheme_idx + len(self.SCHEME_DELIM)
@@ -133,7 +135,7 @@ class UrlDiffer(object):
     if self.UNIX_SLASH in url[hostname_begin:]:
       hostname_end = url.index(self.UNIX_SLASH, hostname_begin)
     else:
-      hostname_end = len(url[hostname_begin:])
+      hostname_end = hostname_begin + len(url[hostname_begin:])
 
     return url[hostname_begin:hostname_end]
 
