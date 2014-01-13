@@ -152,7 +152,7 @@ class UrlDiffer(object):
       self._hostnames_differ = False
     else:
       self._hostnames_differ = True
-      self._diffs.append(ParamDiffEntry('Hostname', left, right,
+      self._diffs.append(ParamDiffEntry('Hostname', [left], [right],
           ParamDiffEntry.BOTH_DIFFER))
 
     return self._hostnames_differ
