@@ -318,7 +318,7 @@ def main():
   arg_parser.add_argument('right_url', type=str, help='URL to diff against.  Logically handled as the right argurmnt of diff.', metavar='<right URL>', nargs='?', default='')
   arg_parser.add_argument('--quiet', '-q', action='store_true', help='suppress output and return non-zero if URLs differ.',
                           default=False, required=False)
-  arg_parser.add_argument('--case_insensitive', '-ci', action='store_true', help='Perform case insensitive diff.', default=False, required=False)
+  arg_parser.add_argument('--case_insensitive', '-c', action='store_true', help='Perform case insensitive diff.', default=False, required=False)
   args = arg_parser.parse_args()
 
   differ = UrlDiffer(args.left_url,
