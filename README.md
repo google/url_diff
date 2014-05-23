@@ -56,7 +56,8 @@ The help message should explain the rest:
       -h, --help            show this help message and exit
       --hostname            also diff URL hostname
       --names, -n           only diff URL parameter names.
-      --decode, -d          URL decode parameter names and values (if applicable).  Decoded params will be used for comparison and printing.
+      --decode, -d          URL decode parameter names and values (if applicable).
+                              Decoded params will be used for comparison and printing.
       --quiet, -q           suppress output and return non-zero if URLs differ.
       --case_insensitive, -i
                             Perform case insensitive diff. NOTE: this converts all input to lowercase.
