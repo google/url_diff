@@ -302,7 +302,6 @@ def main():
   """Parses args, inits and prints differ, and exits with appropriate value."""
   # TODO(macpd): provide option for second diff delimeter.  This would allow one
   # to diff multivalued param values.
-  # TODO(macpd): provide option to diff case insensitively
   # TODO(macpd): provide verbosity option
   arg_parser = argparse.ArgumentParser(
       description='show the difference between 2 urls. Inspired by the unix utility diff',
