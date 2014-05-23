@@ -93,13 +93,14 @@ class UrlDiffer(object):
   URL_ESCAPE_SEQ_LEN = 3 # expected length of URL espace sequences, aka len('%25')
 
   def __init__(self, left_url, right_url, names_only=False, hostnames=False,
-      url_decode_params=False):
+      url_decode_params=False, case_insensitive=False):
     """Initializes object and performs URL diffing."""
     self._left_url = self._normalize_url(left_url)
     self._right_url = self._normalize_url(right_url)
     self._names_only = names_only
     self._wants_hostname_diff = hostnames
     self._url_decode_params = url_decode_params
+    self._case_insensitive = case_insensitive
     self._diffs = []
     self._do_diff()
 
@@ -244,6 +245,8 @@ class UrlDiffer(object):
 
   def _do_diff(self):
     """Performs all appropriate diffing operations."""
+    if self._case_insensitive:
+      self._left_url, self._right_url = self._left_url.lower(), self._right_url.lower()
     if self._wants_hostname_diff:
       self._left_hostname = self._get_hostname(self._left_url)
       self._right_hostname = self._get_hostname(self._right_url)
@@ -315,14 +318,15 @@ def main():
   arg_parser.add_argument('right_url', type=str, help='URL to diff against.  Logically handled as the right argurmnt of diff.', metavar='<right URL>', nargs='?', default='')
   arg_parser.add_argument('--quiet', '-q', action='store_true', help='suppress output and return non-zero if URLs differ.',
                           default=False, required=False)
-
+  arg_parser.add_argument('--case_insensitive', '-i', action='store_true', help='Perform case insensitive diff. NOTE: this converts all input to lowercase.', default=False, required=False)
   args = arg_parser.parse_args()
 
   differ = UrlDiffer(args.left_url,
                      args.right_url,
                      names_only=args.names_only,
                      hostnames=args.diff_hostname,
-                     url_decode_params=args.decode_params)
+                     url_decode_params=args.decode_params,
+                     case_insensitive=args.case_insensitive)
 
   if not args.quiet:
     print differ
