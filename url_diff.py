@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/env python
 """
 Copyright 2014 Google Inc. All Rights Reserved.
 
@@ -15,10 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-"""A tool to show the differnce in URLs.
+"""A tool to show the difference between URLs.
 
-A tool for showing the differnces between URLs.  This is inspired by the unix
-utility diff.
+This tool is inspired by the UNIX utility `diff`.
 """
 
 import argparse
@@ -272,7 +271,7 @@ class UrlDiffer(object):
     new_token = []
     cur = prev = 0
     cur = token.find(self.URL_ESCAPE_CHAR, prev)
-    while(cur != -1):
+    while cur != -1:
       new_token.append(token[prev:cur])
       new_token.append(token[cur+1:cur+self.URL_ESCAPE_SEQ_LEN].decode('hex'))
       prev = cur + self.URL_ESCAPE_SEQ_LEN
@@ -313,8 +312,8 @@ def main():
   arg_parser.add_argument('--decode', '-d', default=False, required=False,
       help='URL decode parameter names and values (if applicable). Decoded params will be used for comparison and printing.',
       action='store_true', dest='decode_params')
-  arg_parser.add_argument('left_url', type=str, help='URL to diff against.  Logically handled as the left argurmnt of diff.', metavar='<left URL>')
-  arg_parser.add_argument('right_url', type=str, help='URL to diff against.  Logically handled as the right argurmnt of diff.', metavar='<right URL>', nargs='?', default='')
+  arg_parser.add_argument('left_url', type=str, help='URL to diff against.  Logically handled as the left argument of diff.', metavar='<left URL>')
+  arg_parser.add_argument('right_url', type=str, help='URL to diff against.  Logically handled as the right argument of diff.', metavar='<right URL>', nargs='?', default='')
   arg_parser.add_argument('--quiet', '-q', action='store_true', help='suppress output and return non-zero if URLs differ.',
                           default=False, required=False)
   arg_parser.add_argument('--case_insensitive', '-i', action='store_true', help='Perform case insensitive diff. NOTE: this converts all input to lowercase.', default=False, required=False)
@@ -328,7 +327,7 @@ def main():
                      case_insensitive=args.case_insensitive)
 
   if not args.quiet:
-    print differ
+    sys.stdout.write('%s\n' % differ)
 
   sys.exit(1 if differ.are_different() else 0)
 
