@@ -3,7 +3,7 @@ url_diff
 
 A tool (like diff) to show the differences between 2 URLs.
 
-In my job I work with a lot of URLs, and often need to know which parameters (names and/or values) differ between 2.  I got fed up with "eye-balling" URLs to figure out the difference (esp. with different param orderings) so I'm developing a tool to do it for me.
+In my job I work with a lot of URLs, and often need to know which parameters (names and/or values) differ between the two.  I got fed up with "eye-balling" URLs to figure out the difference (esp. with different param orderings) so I'm developing a tool to do it for me.
 
 enter url_diff
 --------------
@@ -62,7 +62,9 @@ The help message should explain the rest:
       --case_insensitive, -i
                             Perform case insensitive diff. NOTE: this converts all input to lowercase.
 
-    Currenty this tool discards everything after # if present. see
+    Currently this tool discards everything after '#' if it is present. see
     https://github.com/google/url_diff for more information.
 
 Please keep in mind this is still in alpha, and it's currently a weekend project. Hope y'all find it useful too.
+
+Currently it runs on versions of Python between 2.7 and 3.5
