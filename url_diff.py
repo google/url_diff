@@ -22,6 +22,7 @@ utility diff.
 """
 
 import argparse
+import base64
 import copy
 import logging
 import sys
@@ -274,7 +275,9 @@ class UrlDiffer(object):
     cur = token.find(self.URL_ESCAPE_CHAR, prev)
     while(cur != -1):
       new_token.append(token[prev:cur])
-      new_token.append(token[cur+1:cur+self.URL_ESCAPE_SEQ_LEN].decode('hex'))
+      decoded_hex_as_bytes = base64.b16decode(
+          token[cur+1:cur+self.URL_ESCAPE_SEQ_LEN], casefold=True)
+      new_token.append(decoded_hex_as_bytes.decode())
       prev = cur + self.URL_ESCAPE_SEQ_LEN
       cur = token.find(self.URL_ESCAPE_CHAR, prev)
 
