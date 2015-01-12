@@ -50,8 +50,6 @@ class TestUrlDiffer(unittest.TestCase):
       self.assertEquals(self.empty_differ._get_hostname(url),
                         self.sample_urls.get(url))
 
-  # def testDiffHostnames(self):
-
   def testNormalizeUrlWithoutParams(self):
     """Tests url whitespace trimmed, and truncated at hash."""
     for normalized_url in self.NORMALIZED_URLS:
@@ -75,3 +73,6 @@ class TestUrlDiffer(unittest.TestCase):
     """Tests empty URLs are considered equal."""
     self.assertFalse(self.empty_differ.are_different())
 
+  def testUrlDecode(self):
+    """Tests percent encoded strings are correctly decoded to ASCII."""
+    self.assertEqual('<HOME/>', self.empty_differ._url_decode('%3CHOME/%3E'))
